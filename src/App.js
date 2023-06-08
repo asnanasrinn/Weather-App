@@ -28,12 +28,36 @@ const App = () => {
   const [data, setData] = useState(null);
   const [location, setLocation] = useState("Bucharest");
   const [inputValue, setInputValue] = useState("");
+  const [animate, setAnimate] = useState(false)
 
   const handleInput = (e) => {
     setInputValue(e.target.value)
   }
 
-  console.log(inputValue)
+  const handleSubmit = (e) => {
+    console.log(inputValue)
+    // if input value is not empty
+    if (inputValue !== ""){
+      setLocation(inputValue);
+    }
+    // select input
+    const input = document.querySelector("input")
+
+    // if input value is empty
+    if (input.value === '') {
+      // set animate to true
+      setAnimate(true);
+      // after 500 ms set animate to false
+      setTimeout(() => {
+        setAnimate(false);
+      },500);
+    }
+
+    // clear input
+    input.value = '';
+
+    e.preventDefault()
+  }
 
   //fetch the data
   useEffect(() => {
@@ -57,8 +81,6 @@ const App = () => {
 
   // set the icon according to the weather
   let icon;
-  console.log(data.weather[0].main);
-
   switch (data.weather[0].main) {
     case "Clouds":
       icon = <IoMdCloudy />;
@@ -92,8 +114,8 @@ const App = () => {
     >
       {/* form */}
       <form
-        className="h-16 bg-black/30 w-full max-w-[450px] rounded-full
-                      backdrop-blur-[32px] mb-8"
+        className={`${animate ? 'animate-shake' : 'animate-none'}h-16 bg-black/30 w-full max-w-[450px] rounded-full
+                      backdrop-blur-[32px] mb-8`}
       >
         <div className="h-full relative flex items-center justify-between p-2">
           <input
@@ -102,7 +124,9 @@ const App = () => {
             type="text"
             placeholder="Search by city or country"
           />
-          <button className="bg-[#1ab8ed] hover:bg-[#15abdd] w-20 h-12 rounded-full flex justify-center items-center">
+          <button 
+            onClick={(e) => handleSubmit(e)}
+            className="bg-[#1ab8ed] hover:bg-[#15abdd] w-20 h-12 rounded-full flex justify-center items-center">
             <IoMdSearch className="text-2xl text-white"/>
           </button>
         </div>
