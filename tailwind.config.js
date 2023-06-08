@@ -6,7 +6,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        bgImg: "url('/src/assets/img/bgimg.jpg')",
+        bgImg: "url('/src/assets/img/bg-img.jpg')",
       },
       keyframes: {
         shake: {
